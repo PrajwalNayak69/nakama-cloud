@@ -186,3 +186,4 @@ all the tests, and drop the environment afterwards.
 ### License
 
 This project is licensed under the [Apache-2 License](https://github.com/heroiclabs/nakama/blob/master/LICENSE).
+# nakama-cloud
