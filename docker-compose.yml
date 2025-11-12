@@ -6,25 +6,22 @@ services:
     container_name: nakama
     restart: unless-stopped
     environment:
-      DATABASE_URL: ${DATABASE_URL}
-    volumes:
-      - ./nakama:/data
-      - ./local.yml:/nakama/data/local.yml
+      - DATABASE_URL=${DATABASE_URL}
+    ports:
+      - "7350:7350"
+      - "7351:7351"
     entrypoint:
       - /bin/sh
       - -ec
       - |
         echo "🚀 Running database migrations..."
-        /nakama/nakama migrate up --database.address "${DATABASE_URL}"
+        /nakama/nakama migrate up --database.address "$DATABASE_URL"
 
         echo "✅ Starting Nakama server..."
         exec /nakama/nakama \
           --name nakama1 \
-          --database.address "${DATABASE_URL}" \
+          --database.address "$DATABASE_URL" \
           --logger.level INFO \
           --session.token_expiry_sec 7200 \
           --runtime.path /data/modules \
           --config /nakama/data/local.yml
-    ports:
-      - "7350:7350"
-      - "7351:7351"

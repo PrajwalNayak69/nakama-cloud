@@ -1,15 +1,21 @@
-
 FROM heroiclabs/nakama:3.30.0
 
-# Copy config and startup script
 COPY local.yml /nakama/data/local.yml
-COPY start.sh /start.sh
-RUN chmod +x /start.sh
-
-# Create the runtime modules directory and copy the Lua module
 RUN mkdir -p /data/modules
 COPY ./modules/tic_tac_toe.lua /data/modules/tic_tac_toe.lua
 COPY ./modules/init.lua /data/modules/init.lua
 
+EXPOSE 7350
 
-ENTRYPOINT ["/bin/sh", "/start.sh"]
+ENTRYPOINT ["/bin/sh", "-c", "\
+  echo '🚀 Running database migrations...' && \
+  /nakama/nakama migrate up --database.address \"$DATABASE_URL\" && \
+  echo '✅ Starting Nakama server...' && \
+  exec /nakama/nakama \
+    --name nakama1 \
+    --database.address \"$DATABASE_URL\" \
+    --logger.level INFO \
+    --session.token_expiry_sec 7200 \
+    --runtime.path /data/modules \
+    --config /nakama/data/local.yml \
+"]

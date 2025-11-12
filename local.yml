@@ -1,4 +1,21 @@
+name: nakama1
+data_dir: "./data/"
+
+socket:
+  server_key: "defaultkey"
+  port: 7350
+  address: "0.0.0.0"  # Listen on all interfaces
+  max_message_size_bytes: 4096
+  read_buffer_size_bytes: 4096
+  write_buffer_size_bytes: 4096
+  ping_period_ms: 15000
+  pong_wait_ms: 25000
+  write_wait_ms: 5000
+  outgoing_queue_size: 16
+
 server:
+  port: 7350  # Use same port for HTTP and WebSocket
+  address: "0.0.0.0"
   cors:
     allowed_origins: ["*"]
     allowed_headers: ["*"]
@@ -6,24 +23,23 @@ server:
 
 runtime:
   js_entrypoint: ""
-  # Don't set lua_entrypoint here - let it auto-discover
 
 logger:
-  level: "debug"
+  level: "info"
   format: "json"
 
 console:
   port: 7351
   username: "admin"
   password: "password"
+  address: "0.0.0.0"
 
 session:
-  token_expiry_sec: 60
+  token_expiry_sec: 7200
 
 match:
   input_queue_size: 128
   call_queue_size: 128
 
 database:
-  address: 
-    - "postgres://tictacto_e6uz_user:GYvCP8JDwf675wdECnGkPTUahRZ6ci29@dpg-d47ife2dbo4c73f8mnv0-a.oregon-postgres.render.com:5432/tictacto_e6uz?sslmode=require"
+  address: []  # Set via environment variable
