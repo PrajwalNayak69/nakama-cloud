@@ -3,3 +3,27 @@ server:
     allowed_origins: ["*"]
     allowed_headers: ["*"]
     allowed_methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+
+runtime:
+  js_entrypoint: ""
+  # Don't set lua_entrypoint here - let it auto-discover
+
+logger:
+  level: "debug"
+  format: "json"
+
+console:
+  port: 7351
+  username: "admin"
+  password: "password"
+
+session:
+  token_expiry_sec: 60
+
+match:
+  input_queue_size: 128
+  call_queue_size: 128
+
+database:
+  address: 
+    - "postgres://tictacto_e6uz_user:GYvCP8JDwf675wdECnGkPTUahRZ6ci29@dpg-d47ife2dbo4c73f8mnv0-a.oregon-postgres.render.com:5432/tictacto_e6uz?sslmode=require"
